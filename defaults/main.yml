@@ -18,7 +18,7 @@ rundeck_rss_enable: 'false'
 rundeck_grails_serverurl: "{{ rundeck_url }}"
 ##database
 rundeck_datasource_dbcreate: 'update'
-rundeck_datasource_url: 'jdbc:mysql://10.164.185.121/rundeck?autoReconnect=true&useSSL=false'
+rundeck_datasource_url: 'jdbc:mysql://localhost/rundeck?autoReconnect=true&useSSL=false'
 rundeck_datasource_username: 'rundeck'
 rundeck_datasource_password: 'rundeck1234'
 rundeck_datasource_driverclassname: 'com.mysql.jdbc.Driver'
