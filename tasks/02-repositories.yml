@@ -1,0 +1,28 @@
+---
+- apt_key:
+    url: 'https://bintray.com/user/downloadSubjectPublicKey?username=bintray'
+    state: present
+    validate_certs: no
+  register: repo_key
+  when: 
+    - dependencies_installed is succeeded
+    - ansible_os_family == "Debian"
+
+- name: 'Add repo'
+  apt_repository:
+    repo: 'deb https://rundeck.bintray.com/rundeck-deb /'
+    state: present
+    validate_certs: no
+  when: 
+    - dependencies_installed is succeeded
+    - ansible_os_family == "Debian"
+  register: repo
+
+- name: 'Add repo'
+  yum:
+    name: http://repo.rundeck.org/latest.rpm
+    state: present
+  register: repo
+  when: 
+    - dependencies_installed is succeeded
+    - ansible_os_family == "RedHat"

@@ -1,0 +1,60 @@
+---
+- name: Create a rundeck group
+  group:
+      name=rundeck
+      state=present
+
+- name: Add rundeck
+  user:
+    name: rundeck
+    home: /opt/rundeck
+    group: rundeck
+    shell: /bin/bash
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    ssh_key_file: .ssh/id_rsa
+    state: present
+
+- name: create rundeck directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "a+rw"
+  with_items:
+    - "{{ rundeck_rdeckbase }}"
+    - "{{ rundeck_rdeckbase }}/projects"
+    - "{{ rundeck_rdeckbase }}/libtext"
+    - "{{ rundeck_rdeckbase }}/var"
+    - "{{ rundeck_rdeckbase }}/var/tmp"
+    - "{{ rundeck_rdeckbase }}/var/logs"
+    - "{{ rundeck_rdeckbase }}/work"
+    - "{{ rundeck_rdeckbase }}/projects"
+    - "{{ rundeck_rdeckbase }}/data"
+
+- name: configure rundeck properties
+  template:
+    src: rundeck-config.properties.j2
+    dest: "/etc/rundeck/rundeck-config.properties"
+  notify:
+    - restart rundeck
+
+- name: configure rundeck framework
+  template:
+    src: framework.properties.j2
+    dest: "/etc/rundeck/framework.properties"
+  notify:
+    - restart rundeck
+
+- name: configure rundeck policy
+  template:
+    src: admin.aclpolicy.j2
+    dest: "/etc/rundeck/admin.aclpolicy"
+  notify:
+    - restart rundeck
+
+- name: configure rundeck default users
+  template:
+    src: realm.properties.j2
+    dest: "/etc/rundeck/realm.properties"
+  notify:
+    - restart rundeck

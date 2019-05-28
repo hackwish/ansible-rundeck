@@ -1,0 +1,16 @@
+---
+- name: 'Install dependencies'
+  apt: 
+    name: openjdk-8-jdk        
+    update_cache: yes 
+    state: present
+  when: ansible_os_family == "Debian"
+  register: "dependencies_installed"
+
+- name: 'Install dependencies'
+  yum: 
+    name: java 
+    update_cache: yes
+    state: present
+  when: ansible_os_family == "RedHat"
+  register: "dependencies_installed"

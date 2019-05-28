@@ -1,0 +1,13 @@
+---
+# tasks file for rundeck
+- include: 01-dependencies.yml
+  tags: rundeck_dependencies
+
+- include: 02-repositories.yml
+  tags: rundeck_repositories
+
+- include: 03-install.yml
+  tags: rundeck_install
+
+- include: 04-configure.yml
+  tags: rundeck_configure

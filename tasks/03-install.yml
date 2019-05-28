@@ -1,0 +1,22 @@
+---
+- name: Install Rundeck
+  apt:
+    name: rundeck
+    state: present
+    update_cache: true
+  when:
+    - repo is succeeded
+    - ansible_os_family == "Debian"
+  notify: 
+    - restart rundeck
+
+- name: Install Rundeck
+  yum: 
+    name: rundeck 
+    state: latest
+    update_cache: true
+  when:
+    - repo is succeeded
+    - ansible_os_family == "RedHat"
+  notify: 
+    - restart rundeck
